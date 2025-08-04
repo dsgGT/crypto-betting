@@ -1,36 +1,45 @@
 name: CI
 
-on:        
-  push:       
+on:
+  push:
   pull_request:
 
 jobs:
   build:
     runs-on: ubuntu-latest
+
     steps:
+      # ── pull repo ────────────────────────────────────────────────
       - uses: actions/checkout@v4
 
+      # ── install Node (​needed for Next.js) ───────────────────────
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 18
+
+      # ── install pnpm (adds pnpm + sets PATH) ─────────────────────
       - uses: pnpm/action-setup@v3
         with:
           version: 9
 
+      # ── install Foundry cli (forge / cast / anvil) ──────────────
       - name: Install Foundry
         uses: foundry-rs/foundry-toolchain@v1
         with:
-          version: nightly
+          version: nightly          # or `stable`
 
-      - name: Install deps
+      # ── install JavaScript deps for ALL workspaces ───────────────
+      - name: Install JS deps
         run: pnpm install --frozen-lockfile
 
+      # ── lint monorepo ────────────────────────────────────────────
       - name: Lint
         run: pnpm turbo run lint
 
+      # ── contracts: compile + tests ───────────────────────────────
       - name: Contracts
-        run: |
-          cd contracts
-          forge test
+        run: pnpm --filter contracts exec forge test
 
+      # ── build Next.js app (web workspace) ────────────────────────
       - name: Build web
-        run: |
-          cd web
-          pnpm build
+        run: pnpm --filter web run build
