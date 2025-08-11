@@ -8,11 +8,8 @@ import {WagerManager} from "../src/WagerManager.sol";
 ///         Reads your deployer key from the env variable `PRIVATE_KEY`.
 contract Deploy is Script {
     function run() external {
-        // 1. grab private key
-        uint256 pk = vm.envUint("PRIVATE_KEY");
-
-        // 2. every tx after this line is signed with `pk`
-        vm.startBroadcast(pk);
+        // 1. start broadcast (will use private key from command line)
+        vm.startBroadcast();
 
         // 3. deploy the contract
         new WagerManager();

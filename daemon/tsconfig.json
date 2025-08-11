@@ -1,19 +1,24 @@
 {
   "compilerOptions": {
-    // ESM build that ts-node-esm understands
-    "module": "NodeNext",
+    /*--- core options ---*/
+    "target": "ES2020",
+
+    /* Node-style ESM loader */
+    "module": "NodeNext",            // ← must match moduleResolution
     "moduleResolution": "NodeNext",
-    "target": "ES2022",
 
-    // allow `import … from "./file.json"`
+    /* use `import … from "./file.json"` */
     "resolveJsonModule": true,
-    // allow `import './config.ts'`
     "allowImportingTsExtensions": true,
-    "allowSyntheticDefaultImports": true,
-    "noEmit": true,
 
+    /* we run with ts-node, so tell TS not to emit files */
+    "noEmit": true,                  // ← enables .ts extension imports
+
+    /* strictness */
     "strict": true,
     "skipLibCheck": true,
+
+    /* global types */
     "types": ["node"]
   },
   "include": ["src/**/*"]

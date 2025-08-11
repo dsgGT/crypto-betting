@@ -9,6 +9,8 @@ import {ReentrancyGuard} from "openzeppelin-contracts/contracts/utils/Reentrancy
  * @notice   • “Private” wager  →  creator passes opponent address
  *           • “Open”   wager   →  creator passes address(0); first funder claims the seat
  */
+
+ // 
 contract WagerManager is ReentrancyGuard {
     /*────────────────── CONFIG ──────────────────*/
     uint8  public constant SIG_THRESHOLD = 2;
